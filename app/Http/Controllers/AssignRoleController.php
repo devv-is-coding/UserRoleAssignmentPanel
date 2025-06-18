@@ -59,4 +59,11 @@ class AssignRoleController extends Controller
 
         return redirect()->route('assign_roles.index')->with('success', 'Employee updated.');
     }
+
+    public function destroy($id)
+    {
+        $employee = Employee::findOrFail($id);
+        $employee->delete();
+        return redirect()->route('assign_roles.index')->with('success', 'Employee deleted.');
+    }
 }

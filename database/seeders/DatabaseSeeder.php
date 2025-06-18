@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use App\Models\Employee;
 use App\Models\Role;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,5 +28,12 @@ class DatabaseSeeder extends Seeder
         ]);
         $adminRole = Role::where('name', 'Staff')->first();
         $employee->roles()->attach($adminRole->id);
+
+        Admin::create([
+            'username' => 'admin',
+            'email' => 'admin@me.com',
+            'password' => Hash::make('password')
+        ]);
     }
+
 }
