@@ -11,7 +11,7 @@ class AuthCheck
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Session::has('LoggedAdmin')) {
+        if (!Session::has('loggedInAdmin')) {
             return redirect()->route('auth.login')->with('fail', 'You must be logged in.');
         }
         return $next($request);

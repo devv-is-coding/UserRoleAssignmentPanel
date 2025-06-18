@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         if (Session::has('loggedInAdmin')) {
-            return redirect('/dashboard');
+            return redirect()->route('admin.dashboard');
         }
         return view('auth.login');
     }
@@ -25,13 +25,16 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
-        $admin = Admin::where('username', $request->username||'email', $request->email)->first();
+        $admin = Admin::where(function ($query) use ($request) {
+            $query->where('username', $request->username)->orWhere('email', $request->email);
+        })->first();
+
 
         if ($admin && Hash::check($request->password, $admin->password)) {
             Auth::login($admin);
             Session::put('loggedInAdmin', $admin->id);
             Session::regenerate();
-            return redirect()->route('dashboard')->with('success', 'Welcome back, Admin!');
+            return redirect()->route('admin.dashboard')->with('success', 'Welcome back, Admin!');
         }
 
         return redirect()->back()->with('error', 'Invalid credentials.');
