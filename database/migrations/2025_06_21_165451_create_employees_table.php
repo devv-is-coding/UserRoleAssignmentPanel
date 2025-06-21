@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('middlename');
             $table->string('lastname');
-            $table->string('sex');
+            $table->foreignId('gender_id')->constrained('genders')->onDelete('cascade');
             $table->bigInteger('contactNum');
             $table->string('bdate');
             $table->timestamps();

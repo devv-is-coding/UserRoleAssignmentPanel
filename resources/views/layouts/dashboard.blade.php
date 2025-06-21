@@ -85,7 +85,7 @@
                     <div class="employee-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:scale-[1.02]"
                         data-role="{{ $emp->roles->pluck('name')->implode(',') }}">
                         <h3 class="font-semibold text-xl text-gray-800">{{ $emp->firstname }} {{ $emp->lastname }}</h3>
-                        <p class="text-gray-600 text-sm mt-1">Sex: {{ $emp->sex }}</p>
+                        <p class="text-gray-600 text-sm mt-1">Gender: {{ $emp->gender->gender ?? 'N/A' }}</p>
                         <p class="text-gray-600 text-sm">Contact: {{ $emp->contactNum }}</p>
                         <p class="text-gray-600 text-sm">Birthdate: {{ $emp->bdate }}</p>
                         <p class="text-gray-600 text-sm">Roles: <span

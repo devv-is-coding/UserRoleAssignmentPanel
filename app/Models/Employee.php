@@ -15,12 +15,18 @@ class Employee extends Model
         'firstname',
         'middlename',
         'lastname',
+        'gender_id',
         'sex',
         'contactNum',
         'bdate',
     ];
-    
-    public function roles(): MorphToMany{
+
+    public function roles(): MorphToMany
+    {
         return $this->morphToMany(Role::class, 'model', 'model_has_roles');
+    }
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class);
     }
 }
