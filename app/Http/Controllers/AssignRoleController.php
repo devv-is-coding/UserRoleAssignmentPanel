@@ -5,21 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use App\Models\Gender;
 
 class AssignRoleController extends Controller
 {
     public function index()
     {
-        $employees = Employee::with('roles')->get();
+        $employees = Employee::with('roles', 'gender')->get();
         $roles = Role::all();
-        return view('assign_roles.index', compact('employees', 'roles'));
-    }
+        $genders = Gender::all();
 
+        return view('assign_roles.index', compact('employees', 'roles', 'genders'));
+    }
 
     public function create()
     {
         $roles = Role::all();
-        return view('assign_roles.create', ['roles' => $roles]);
+        $genders = Gender::all();
+
+        return view('assign_roles.create', compact('roles', 'genders'));
     }
 
     public function store(Request $request)
@@ -28,7 +32,7 @@ class AssignRoleController extends Controller
             'firstname' => 'required|string',
             'middlename' => 'required|string',
             'lastname' => 'required|string',
-            'sex' => 'required|in:Male,Female',
+            'gender_id' => 'required|exists:genders,id',
             'contactNum' => 'required|numeric',
             'bdate' => 'required|date',
             'role' => 'required|exists:roles,id',
@@ -42,13 +46,11 @@ class AssignRoleController extends Controller
 
     public function edit($id)
     {
-        $employee = Employee::with('roles')->findOrFail($id);
+        $employee = Employee::with('roles', 'gender')->findOrFail($id);
         $roles = Role::all();
+        $genders = Gender::all();
 
-        return view('assign_roles.edit', [
-            'employee' => $employee,
-            'roles'    => $roles
-        ]);
+        return view('assign_roles.edit', compact('employee', 'roles', 'genders'));
     }
 
     public function update(Request $request, $id)
@@ -57,7 +59,7 @@ class AssignRoleController extends Controller
             'firstname' => 'required|string',
             'middlename' => 'required|string',
             'lastname' => 'required|string',
-            'sex' => 'required|in:Male,Female',
+            'gender_id' => 'required|exists:genders,id',
             'contactNum' => 'required|numeric',
             'bdate' => 'required|date',
             'role' => 'required|exists:roles,id',

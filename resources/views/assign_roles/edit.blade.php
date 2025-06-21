@@ -16,41 +16,41 @@
         'firstname' => 'First name',
         'middlename' => 'Middle name',
         'lastname' => 'Last name',
-        'sex' => 'Sex',
         'contactNum' => 'Phone number',
         'bdate' => 'Birth date',
       ];
     @endphp
 
     @foreach($fieldLabels as $field => $label)
-      @if($field === 'sex')
-        <div>
-          <label for="sex" class="block mb-1 text-sm font-medium">{{ $label }}</label>
-          <select id="sex" name="sex"
-                  class="w-full px-3 py-2 rounded-md border {{ $errors->has('sex') ? 'border-red-500' : 'border-gray-400' }} focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="" disabled {{ old('sex', $employee->sex) ? '' : 'selected' }}>Select sex</option>
-            <option value="Male" {{ old('sex', $employee->sex) === 'Male' ? 'selected' : '' }}>Male</option>
-            <option value="Female" {{ old('sex', $employee->sex) === 'Female' ? 'selected' : '' }}>Female</option>
-          </select>
-          @error('sex')
-            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-          @enderror
-        </div>
-      @else
-        <div>
-          <label for="{{ $field }}" class="block mb-1 text-sm font-medium">{{ $label }}</label>
-          <input
-            id="{{ $field }}"
-            name="{{ $field }}"
-            value="{{ old($field, $employee->$field) }}"
-            type="{{ $field === 'contactNum' ? 'tel' : ($field === 'bdate' ? 'date' : 'text') }}"
-            class="w-full px-3 py-2 rounded-md border {{ $errors->has($field) ? 'border-red-500' : 'border-gray-400' }} focus:outline-none focus:ring-2 focus:ring-blue-500">
-          @error($field)
-            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-          @enderror
-        </div>
-      @endif
+      <div>
+        <label for="{{ $field }}" class="block mb-1 text-sm font-medium">{{ $label }}</label>
+        <input
+          id="{{ $field }}"
+          name="{{ $field }}"
+          value="{{ old($field, $employee->$field) }}"
+          type="{{ $field === 'contactNum' ? 'tel' : ($field === 'bdate' ? 'date' : 'text') }}"
+          class="w-full px-3 py-2 rounded-md border {{ $errors->has($field) ? 'border-red-500' : 'border-gray-400' }} focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @error($field)
+          <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+      </div>
     @endforeach
+
+    <div>
+      <label for="gender_id" class="block mb-1 text-sm font-medium">Gender</label>
+      <select id="gender_id" name="gender_id"
+              class="w-full px-3 py-2 rounded-md border {{ $errors->has('gender_id') ? 'border-red-500' : 'border-gray-400' }} focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="" disabled>Select gender</option>
+        @foreach($genders as $gender)
+          <option value="{{ $gender->id }}" {{ old('gender_id', $employee->gender_id) == $gender->id ? 'selected' : '' }}>
+            {{ $gender->name }}
+          </option>
+        @endforeach
+      </select>
+      @error('gender_id')
+        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+      @enderror
+    </div>
 
     <div>
       <label for="role" class="block mb-1 text-sm font-medium">Role</label>

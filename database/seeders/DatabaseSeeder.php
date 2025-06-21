@@ -9,6 +9,7 @@ use App\Models\Employee;
 use App\Models\Role;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Gender;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,13 +17,14 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
+            GenderSeeder::class,
         ]);
-
+        $employeeGender = Gender::where('gender', 'Male')->first();
         $employee = Employee::create([
             'firstname' => 'Juan',
             'middlename' => 'Santos',
             'lastname' => 'Dela Cruz',
-            'sex' => 'Male',
+            'gender_id' => $employeeGender->id,
             'contactNum' => 9123456789,
             'bdate' => '1995-06-18',
         ]);
